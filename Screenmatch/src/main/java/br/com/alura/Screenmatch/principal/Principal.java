@@ -7,8 +7,10 @@ import br.com.alura.Screenmatch.service.ConsumoApi;
 import br.com.alura.Screenmatch.service.converteDados;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
@@ -39,18 +41,32 @@ public class Principal {
 		temporadas.forEach(System.out::println);
 
 
-//        for (int i =0; i < dados.temporadas(); i++) {
-//            List<dadosEpisodios> episodiosTemporadas = temporadas.get(i).episodios();
-//            for (int j =0; j < episodiosTemporadas.size(); j++) {
-//                System.out.println(episodiosTemporadas.get(j).titulo());
-//            }
-//        }
+        for (int i =0; i < dados.temporadas(); i++) {
+            List<dadosEpisodios> episodiosTemporadas = temporadas.get(i).episodios();
+            for (int j =0; j < episodiosTemporadas.size(); j++) {
+                System.out.println(episodiosTemporadas.get(j).titulo());
+            }
+        }
 
         temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
+
+        List<dadosEpisodios> dadosEpisodio = temporadas.stream()
+                .flatMap(t -> t.episodios().stream())
+                .collect(Collectors.toList());
+
+
+        System.out.println("Quantidade de episódios: " + dadosEpisodio.size());
+
+
+        System.out.println("Top 5 melhores episodios");
+
+        dadosEpisodio.stream()
+                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+                .sorted(Comparator.comparing(dadosEpisodios::avaliacao).reversed())
+                .limit(5)
+                .forEach(System.out::println);
+
     }
-
-
-
 }
 
 
