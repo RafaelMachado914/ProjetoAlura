@@ -1,5 +1,4 @@
 package br.com.alura.Screenmatch;
-
 import br.com.alura.Screenmatch.principal.Principal;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
